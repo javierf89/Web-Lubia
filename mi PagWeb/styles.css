@@ -1,0 +1,202 @@
+/* (Este es el mismo CSS con estilos llamativos, luces y formulario brillante) */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #ffa533, #ffa533, #ffa533);
+  color: #2d0033;
+}
+
+header {
+  text-align: center;
+  background: linear-gradient(to right, #ffe633, #c600ff);
+  color: white;
+  padding: 30px 10px;
+  box-shadow: 0 0 25px 	rgb(255, 69, 0);
+  border-bottom: 5px solid #ffbb00;
+}
+
+header h1 {
+  font-size: 3em;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px #000;
+}
+
+header p {
+  font-style: italic;
+  font-size: 1.2em;
+}
+
+nav {
+  background-color: #2d0033;
+  padding: 10px 0;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 20px;
+}
+
+nav ul li a {
+  color: #ffccff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ffbb00;
+}
+
+main {
+  padding: 30px;
+}
+
+section {
+  background: #ffffffc9;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #ff00b347;
+  padding: 25px;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+}
+
+section:hover {
+  transform: scale(1.02);
+}
+
+h2 {
+  color: #8a00c2;
+  font-size: 2em;
+  margin-bottom: 15px;
+  border-bottom: 2px dashed #ff77dd;
+  padding-bottom: 5px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 25px;
+}
+
+li::before {
+  content: "💜";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+footer {
+  text-align: center;
+  background-color: #2d0033;
+  color: #ffccff;
+  padding: 20px;
+  font-size: 0.9em;
+  border-top: 3px solid #ff77dd;
+}
+
+* {
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 2em;
+  }
+  nav ul li {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
+.form-brillante {
+  background: linear-gradient(145deg, #ffe0ff, #f0b6ff);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #ff00ff80;
+}
+
+.form-brillante label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+  color: #550066;
+}
+
+.form-brillante input,
+.form-brillante textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #DC143C;
+  background-color: #fff0fa;
+  box-shadow: inset 0 0 5px #ffccff;
+}
+
+.form-brillante button {
+  margin-top: 20px;
+  background: #FF1493;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 0 15px #FF1493;
+}
+
+.form-brillante button:hover {
+  background: #e600aa;
+  box-shadow: 0 0 25px #ff66ff;
+}
+```
+body {
+  background: linear-gradient(135deg, #ffe3ec, #d8f3dc);
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.bienvenida {
+  padding: 40px;
+  max-width: 800px;
+  margin: 50px auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 25px;
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
+  animation: brillar 3s ease-in-out infinite alternate;
+}
+
+.bienvenida h1 {
+  font-family: 'Pacifico', cursive;
+  color: #ff1493;
+  text-align: center;
+  font-size: 2.8em;
+}
+
+.bienvenida p {
+  font-size: 1.2em;
+  line-height: 1.8;
+  text-align: center;
+  color: #444;
+}
+
+@keyframes brillar {
+  from {
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+  }
+  to {
+    box-shadow: 0 0 35px rgba(255, 105, 180, 0.7);
+  }
+}

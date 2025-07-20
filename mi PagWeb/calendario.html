@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calendario Básico - Herencia Afrorizada</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0e5f9;
+      text-align: center;
+    }
+    h1 {
+      color: #4b0082;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 300px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(75, 0, 130, 0.3);
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: 14.28%;
+      text-align: center;
+    }
+    th {
+      background-color: #6a0dad;
+      color: white;
+    }
+    td.disponible {
+      background-color: #90ee90;
+      cursor: pointer;
+    }
+    td.ocupado {
+      background-color: #f08080;
+      cursor: not-allowed;
+      color: #550000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📅 Calendario de Citas</h1>
+
+  <table id="calendario">
+    <thead>
+      <tr>
+        <th>Dom</th>
+        <th>Lun</th>
+        <th>Mar</th>
+        <th>Mié</th>
+        <th>Jue</th>
+        <th>Vie</th>
+        <th>Sáb</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí se llenará con JS -->
+    </tbody>
+  </table>
+
+  <script>
+    const fecha = new Date();
+    const year = fecha.getFullYear();
+    const month = fecha.getMonth(); // 0 a 11
+
+    const diasDisponibles = [5, 8, 12, 15, 19, 22, 26]; // Días del mes disponibles para cita
+    const diasOcupados = [10, 18, 23]; // Días ocupados
+
+    function generarCalendario(year, month) {
+      const primerDia = new Date(year, month, 1);
+      const ultimoDia = new Date(year, month + 1, 0);
+      const primerDiaSemana = primerDia.getDay(); // 0: domingo, 6: sábado
+
+      const tbody = document.querySelector("#calendario tbody");
+      tbody.innerHTML = "";
+
+      let fila = document.createElement("tr");
+      // Agregar celdas vacías antes del primer día
+      for (let i = 0; i < primerDiaSemana; i++) {
+        fila.appendChild(document.createElement("td"));
+      }
+
+      for (let dia = 1; dia <= ultimoDia.getDate(); dia++) {
+        const celda = document.createElement("td");
+        celda.textContent = dia;
+
+        if (diasDisponibles.includes(dia)) {
+          celda.classList.add("disponible");
+          celda.title = "Disponible para cita";
+          celda.onclick = () => alert("Has seleccionado el día " + dia + " para tu cita.");
+        } else if (diasOcupados.includes(dia)) {
+          celda.classList.add("ocupado");
+          celda.title = "Día ocupado";
+        }
+
+        fila.appendChild(celda);
+
+        // Si es sábado, comenzar una nueva fila
+        if ((primerDiaSemana + dia) % 7 === 0) {
+          tbody.appendChild(fila);
+          fila = document.createElement("tr");
+        }
+      }
+      // Agregar última fila si tiene celdas
+      if (fila.children.length > 0) {
+        tbody.appendChild(fila);
+      }
+    }
+
+    generarCalendario(year, month);
+  </script>
+
+</body>
+</html>

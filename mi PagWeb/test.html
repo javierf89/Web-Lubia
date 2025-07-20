@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Calendario</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="calendar" style="max-width: 900px; margin: 40px auto;"></div>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: [
+          { title: 'Disponible', start: '2025-07-21' },
+          { title: 'Ocupado', start: '2025-07-22' }
+        ],
+      });
+      calendar.render();
+    });
+  </script>
+</body>
+</html>
