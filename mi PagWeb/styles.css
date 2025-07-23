@@ -1,10 +1,11 @@
-/* (Este es el mismo CSS con estilos llamativos, luces y formulario brillante) */
+/* (Este es el mismo CSS con estilos llamativos, luces y formulario brillante) para compilar */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(to right, #FF69B4, #FFE4E1, #FFE4E1);
   color: #2d0033;
 }
+
 
 header {
   text-align: center;
