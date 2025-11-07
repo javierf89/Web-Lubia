@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Men's Spot — Lounge & Grooming</title>
+  <meta name="description" content="Salón premium exclusivo para hombres — barbería, faciales, masajes, manicure y lounge con snacks."/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+
+
+  <style>
+
+    :root{
+      --black:#0b0b0b;
+      --deep-gray:#111213;
+      --mid-gray:#2b2b2b;
+      --light-gray:#bfbfbf;
+      --gold:#cfa94a;
+      --white:#f3f3f3;
+      --glass: rgba(255,255,255,0.03);
+      --card-radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:'Montserrat',system-ui,Arial,sans-serif;
+      background:
+        radial-gradient(900px 400px at 10% 10%, rgba(255,255,255,0.02), transparent 6%),
+        radial-gradient(800px 300px at 90% 90%, rgba(255,255,255,0.01), transparent 8%),
+        var(--black);
+      color:var(--white);-webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;line-height:1.45;
+    }
+
+    /* NAV */
+    .nav{
+      position:sticky;top:0;z-index:60;
+      display:flex;align-items:center;justify-content:space-between;padding:16px 32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+      border-bottom:1px solid rgba(255,255,255,0.03);backdrop-filter: blur(6px);
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--deep-gray),#0e0e0e);
+      display:grid;place-items:center;border:1px solid rgba(255,255,255,0.04);
+    }
+    .brand h1{font-family:'Playfair Display',serif;margin:0;font-size:18px;color:var(--gold)}
+    .brand p{margin:0;font-size:12px;color:var(--light-gray)}
+    .nav-links{display:flex;gap:12px;align-items:center}
+    .nav-links a{color:var(--light-gray);text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px}
+    .nav-links a:hover{background:rgba(255,255,255,0.02);color:var(--white)}
+    .cta{background:linear-gradient(90deg,var(--gold), #e0b94b);color:var(--black);padding:9px 14px;border-radius:10px;font-weight:800;text-decoration:none}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:36px;padding:56px 6vw;align-items:center}
+    .kicker{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,0.02);color:var(--light-gray);font-weight:700;font-size:13px}
+    .hero h2{font-family:'Playfair Display',serif;font-size:36px;margin:18px 0;color:var(--white);line-height:1.02}
+    .hero p{color:var(--light-gray);font-size:16px;margin-bottom:22px;max-width:680px}
+    .features{display:flex;gap:12px;flex-wrap:wrap}
+    .feature{background:var(--glass);padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);min-width:160px}
+    .feature h4{margin:0 0 6px 0;color:var(--gold)}
+    .feature p{margin:0;color:var(--light-gray);font-size:13px}
+
+    /* BOOKING CARD */
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--card-radius);padding:18px;border:1px solid rgba(255,255,255,0.04)}
+    .booking h3{margin:0 0 12px 0;color:var(--gold);font-size:18px}
+    .form-row{display:flex;gap:8px;margin-bottom:10px}
+    input[type=text],input[type=tel],input[type=email],select,textarea,input[type=date],input[type=time]{
+      width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--white);outline:none;font-size:14px
+    }
+    .btn-primary{background:linear-gradient(90deg,var(--gold), #e0b94b);color:var(--black);padding:10px 14px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
+
+    /* SERVICES */
+    .section{padding:36px 6vw}
+    .section h3{color:var(--gold);margin-bottom:14px}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .service-card{background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden;transition:transform .28s,box-shadow .28s}
+    .service-card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(0,0,0,.7)}
+    .service-card h4{margin:0 0 8px 0;color:var(--gold)}
+    .service-card p{margin:0 0 12px 0;color:var(--light-gray);font-size:14px}
+    .price{position:absolute;right:14px;top:14px;background:linear-gradient(90deg,rgba(255,255,255,0.03),transparent);padding:8px;border-radius:8px;font-weight:700;color:var(--white)}
+
+    /* GALLERY */
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .gallery-grid img{width:100%;height:160px;object-fit:cover;border-radius:10px;border:1px solid rgba(255,255,255,0.04);}
+
+    /* CONTACT / MAP */
+    .contact{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start}
+    .map-frame{width:100%;height:360px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.04)}
+
+    /* CATALOGO (libro/cuaderno) */
+    #catalogo{
+      display:none;
+      padding:40px 6vw;
+      background:linear-gradient(180deg,var(--deep-gray),#0a0a0a);
+      min-height:100vh;
+      color:var(--white);
+    }
+    #catalogo.active{display:block;}
+    .catalog-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+    .book-wrap{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+    .page-card{
+      width:260px;height:380px;background:linear-gradient(180deg,#121212,#0d0d0d);
+      border-radius:12px;border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 12px 30px rgba(0,0,0,.6);padding:14px;position:relative;overflow:hidden;
+      transform-origin:left center;transition:transform .6s, box-shadow .3s;
+    }
+    .page-card:hover{transform:translateY(-8px) rotateY(-6deg); box-shadow:0 30px 60px rgba(0,0,0,.7)}
+    .page-card img{width:100%;height:200px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+    .product-title{color:var(--gold);margin:10px 0 6px 0;font-weight:700}
+    .product-desc{color:var(--light-gray);font-size:13px;margin:0 0 10px 0}
+    .product-price{position:absolute;bottom:14px;right:14px;background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px;font-weight:800}
+
+    .catalog-controls{display:flex;gap:10px;align-items:center}
+    .volver-btn{
+      display:inline-block;
+      background:linear-gradient(90deg,var(--gold),#e0b94b);
+      color:var(--black);
+      font-weight:800;
+      padding:10px 18px;border-radius:10px;text-decoration:none;
+    }
+
+    footer{padding:20px 6vw;border-top:1px solid rgba(255,255,255,0.03);display:flex;justify-content:space-between;align-items:center}
+    footer p{margin:0;color:var(--light-gray)}
+
+    @media(max-width:1000px){
+      .hero{grid-template-columns:1fr;gap:20px;padding:28px}
+      .services-grid{grid-template-columns:repeat(2,1fr)}
+      .gallery-grid{grid-template-columns:repeat(3,1fr)}
+      .contact{grid-template-columns:1fr}
+    }
+    @media(max-width:700px){
+      .nav{padding:12px}
+      .brand h1{font-size:16px}
+      .services-grid{grid-template-columns:1fr}
+      .gallery-grid{grid-template-columns:repeat(2,1fr)}
+      .page-card{width:48%;height:300px}
+    }
+
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="18" height="18" rx="3" fill="#131313" />
+          <path d="M7 9h10M8 13h8" stroke="#cfa94a" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1>The Men's Spot</h1>
+        <p>Grooming • Lounge</p>
+      </div>
+    </div>
+
+    <nav class="nav-links" role="navigation" aria-label="Menú principal">
+      <a href="#top">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#galeria">Galería</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#" id="openCatalogo">Catálogo</a>
+      <a class="cta" href="#reserva">Reservar</a>
+      
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <span class="kicker">EXPERIENCIA PREMIUM</span>
+        <h2 id="hero-title">Donde tu estilo masculino se encuentra con la elegancia.</h2>
+        Un espacio exclusivo para el cuidado del hombre moderno.<br>
+        The Men's Spot combina barbería profesional, tratamientos faciales, masajes y un lounge con snacks y bebidas premium. Reserva online y vive la experiencia.</p>
+
+        <div class="features" aria-hidden="true">
+          <div class="feature">
+            <h4>Barbería & Corte</h4>
+            <p>Técnicas modernas y clásicas con acabados perfectos.</p>
+          </div>
+          <div class="feature">
+            <h4>Skin Care</h4>
+            <p>Protocolos para la piel masculina: limpieza y tratamiento.</p>
+          </div>
+          <div class="feature">
+            <h4>Masajes Exprés</h4>
+            <p>Relajación focal en 30 y 60 minutos.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card booking" id="reserva" aria-labelledby="reserva-title">
+        <h3 id="reserva-title">Reservar cita</h3>
+
+        <form id="bookingForm" aria-describedby="reserva-note">
+          <div class="form-row">
+            <input required type="text" name="name" placeholder="Nombre completo" aria-label="Nombre completo">
+          </div>
+          <div class="form-row">
+            <input required type="tel" name="phone" placeholder="Teléfono / WhatsApp" aria-label="Teléfono">
+          </div>
+          <div class="form-row">
+            <select name="service" required aria-label="Servicio">
+              <option value="">Selecciona un servicio</option>
+              <option value="corte">Corte + Barba</option>
+              <option value="facial">Facial masculino</option>
+              <option value="masaje">Masaje 30 min</option>
+              <option value="manicure">Manicure / Pedicure</option>
+              <option value="paquete-vip">Paquete VIP</option>
+              <option value="depilacion">Depilación de Cejas (cera/hilo)</option>
+              <option value="tinte-hidratacion">Tinte + Hidratación Capilar</option>
+              <option value="Paquete Esposo">Esposo — The Gentleman’s Wedding Experience</option>
+              <option value="Preboda VIP Experience">Preboda VIP Experience</option>
+            </select>
+            
+          </div>
+          <div class="form-row">
+            <input type="date" name="date" required aria-label="Fecha">
+            <input type="time" name="time" required aria-label="Hora">
+          </div>
+          <div class="form-row">
+            <textarea name="notes" placeholder="Comentarios (alergias, preferencia de barbero)..." rows="2" aria-label="Comentarios"></textarea>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:10px">
+            <button class="btn-primary" type="submit" aria-label="Solicitar reserva">Solicitar</button>
+            <a class="pill" href="#" onclick="openWhatsApp();return false" aria-label="Reservar por WhatsApp">Reservar por WhatsApp</a>
+          </div>
+
+          <small id="reserva-note" style="display:block;margin-top:10px;color:var(--light-gray)">Te contactaremos para confirmar la cita. Política de cancelación: 6 horas antes.</small>
+        </form>
+      </aside>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios" class="section" aria-labelledby="servicios-title">
+      <h3 id="servicios-title">Nuestros Servicios</h3>
+      <div class="services-grid" role="list">
+        <article class="service-card" role="listitem"><div class="price">L.350</div><h4>Corte Premium</h4><p>Corte con técnica personalizada, lavado y arreglo de patillas. Incluye toalla caliente.</p></article>
+        <article class="service-card" role="listitem"><div class="price">L.600</div><h4>Facial Masculino</h4><p>Limpieza profunda, exfoliación y tratamiento según tipo de piel.</p></article>
+        <article class="service-card" role="listitem"><div class="price">L.500</div><h4>Masaje 30 min</h4><p>Masaje de cuello y hombros ideal para liberar tensión.</p></article>
+        <article class="service-card" role="listitem"><div class="price">L.250</div><h4>Manicure / Pedicure</h4><p>Cuidado de uñas y manos/pies con hidratación profesional.</p></article>
+        <article class="service-card" role="listitem"><div class="price">L.1800</div><h4>Paquete VIP</h4><p>Corte premium + facial + masaje 30 min + bebida premium. Prioridad de agenda.</p></article>
+        <article class="service-card" role="listitem"><div class="price">L.450</div><h4>Tratamiento Capilar</h4><p>Anticaída y revitalizante con productos especializados.</p></article>
+        
+        <article class="service-card shimmer" role="listitem">
+        <div class="price">L.215</div>
+        <h4>Barba Premium</h4>
+        <p>Diseño y perfilado de barba con visajismo, adaptando la forma a la estructura facial del cliente + Tratamiento completo de barba: hidratación profunda, mascarilla y aceites especializados para barbas largas + Masaje ligero para la piel debajo de la barba</p>
+      </article>
+
+      
+      
+        <!-- Nuevos servicios -->
+        <article class="service-card" role="listitem"><div class="price">L.200</div><h4>Depilación de Cejas</h4><p>Depilación con cera o hilo para cejas perfectamente definidas y naturales.</p></article>
+        <article class="service-card" role="listitem"><div class="price">L.750</div><h4>Tinte + Hidratación Capilar</h4><p>Color y nutrición profunda en un solo tratamiento para revitalizar tu cabello.</p></article>
+        <article class="service-card" role="listitem"><div class="price">L.3,800</div><h4>Paquete Esposo</h4><p>Corte de cabello premium + Afeitado clásico o arreglo de barba + Facial express revitalizante + Manicure y pedicure masculino + Hidratación capilar y masaje de cuello y hombros + Bebida premium de cortesía.</p><article>
+        <article class="service-card" role="listitem"><div class="price">L.5,500</div><h4>Preboda VIP Experience</h4><p>Corte y peinado para el novio + 2 acompañante + Bebidas exclusivas (whisky, vino o café gourmet) + Sesión fotográfica profesional dentro del salón (10–15 fotos editadas).</p><article></article>
+      <div>
+      </div>
+    </section>
+    <section id="servicios-basicos" class="section" aria-labelledby="basicos-title" style="margin-top: 60px;">
+  <div class="container">
+    <h2 id="basicos-title" style="color: var(--gold); font-size: 28px; text-align: center; margin-bottom: 30px;">
+     “Servicios Clásicos — Estilo y Cuidado a Precio Justo”
+    </h2>
+
+    <p style="text-align:center; color:#ccc; margin-bottom:40px;">
+      Pensados para quienes buscan un cuidado rápido, económico y con la misma calidad profesional de The Men’s Spot.
+    </p>
+
+    <div class="services-grid" role="list">
+
+      <article class="service-card shimmer" role="listitem">
+        <div class="price">L.200</div>
+        <h4>Corte Clásico</h4>
+        <p>Corte de cabello tradicional con técnica moderna y acabado limpio. Ideal para mantenimiento semanal.</p>
+      </article>
+
+      <article class="service-card shimmer" role="listitem">
+        <div class="price">L.180</div>
+        <h4>Afeitado Tradicional</h4>
+        <p>Toalla caliente, espuma especial y loción refrescante. Afeitado clásico con estilo.</p>
+      </article>
+
+      <article class="service-card shimmer" role="listitem">
+        <div class="price">L.150</div>
+        <h4>Arreglo de Barba</h4>
+        <p>Perfilado y recorte profesional de barba con máquina o navaja. Incluye bálsamo nutritivo.</p>
+      </article>
+
+
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- GALERÍA -->
+    <section id="galeria" class="section" aria-labelledby="galeria-title">
+      <h3 id="galeria-title">Galería</h3>
+      <div class="gallery-grid">
+        <img src="Manicure.jpg" alt="Barbería moderna" loading="lazy">
+        <img src="Snacks.jpg" alt="Tratamiento facial" loading="lazy">
+        <img src="Pedicure.jpg" alt="Estilo lounge" loading="lazy">
+        <img src="Facial.jpg" alt="Masaje relajante" loading="lazy">
+        <img src="barba.jpg" alt="Herramientas" loading="lazy">
+        <img src="Corte.jpg" alt="Corte" loading="lazy">
+        <img src="herramientas.jpg" alt="Barba" loading="lazy">
+        <img src="Pedicure.jpg" alt="Snacks lounge" loading="lazy">
+      </div>
+    </section>
+
+    <!-- UBICACIÓN -->
+    <section id="ubicacion" class="section" aria-labelledby="ubicacion-title">
+      <h3 id="ubicacion-title">Ubicación</h3>
+      <p style="color:var(--light-gray);margin-top:6px;margin-bottom:12px">Plaza Ciudad Nueva — Comayagua. Usa el mapa interactivo para ver la ubicación exacta.</p>
+      <div class="map-frame" aria-hidden="false">
+        <!-- Embebido simple con query (Plaza Ciudad Nueva, Comayagua) -->
+        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+          src="https://www.google.com/maps?q=Plaza+Ciudad+Nueva+Comayagua&output=embed"
+          allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+      </div>
+    </section>
+
+<!-- ESTILOS DEL CALENDARIO -->
+<style>
+  /* Fuente y fondo general */
+  .calendar {
+    background-color: #2c2c3e;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    max-width: 500px;
+    margin: 0 auto 50px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #f0f0f0;
+  }
+  .calendar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #f5f5f5;
+  }
+  .weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 50px);
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+    color: #ccc;
+    font-weight: bold;
+    text-align: center;
+  }
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 50px);
+    gap: 10px;
+    justify-content: center;
+  }
+  .day {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .day:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+  .available {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  .occupied {
+    background-color: #e53935;
+    color: #fff;
+    cursor: not-allowed;
+  }
+</style>
+
+<!-- HTML DEL CALENDARIO -->
+<div class="calendar">
+  <h2>Nov 2025</h2>
+  <div class="weekdays">
+    <div>Lun</div>
+    <div>Mar</div>
+    <div>Mié</div>
+    <div>Jue</div>
+    <div>Vie</div>
+    <div>Sáb</div>
+    <div>Dom</div>
+  </div>
+  <div class="days" id="days"></div>
+</div>
+
+<!-- SCRIPT DEL CALENDARIO -->
+<script>
+  const daysContainer = document.getElementById('days');
+  const totalDays = 30; // Cambia según el mes si quieres
+  const occupiedDays = [3, 7, 12, 18, 25]; // Días ocupados
+  const formURL = 'https://tuweb.com/formulario'; // Cambia al link real de tu formulario
+
+  for (let i = 1; i <= totalDays; i++) {
+    const dayDiv = document.createElement('div');
+    dayDiv.textContent = i;
+
+    if (occupiedDays.includes(i)) {
+      dayDiv.classList.add('day', 'occupied');
+    } else {
+      dayDiv.classList.add('day', 'available');
+      dayDiv.addEventListener('click', () => {
+        alert(`¡Has agendado cita para el día ${i}!`);
+        window.location.href = formURL;
+      });
+    }
+
+    daysContainer.appendChild(dayDiv);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="section" aria-labelledby="contacto-title">
+      <h3 id="contacto-title">Contacto & Newsletter</h3>
+      <div style="display:flex;gap:18px;align-items:flex-start;margin-top:12px;flex-wrap:wrap">
+        <aside class="card" style="flex:1;min-width:280px;">
+          <h4 style="color:var(--gold);margin-top:0">Escríbenos</h4>
+          <form id="contactForm">
+            <input type="text" name="cname" placeholder="Nombre completo" required style="margin-bottom:8px">
+            <input type="email" name="cemail" placeholder="Correo electrónico" required style="margin-bottom:8px">
+            <input type="tel" name="cphone" placeholder="Teléfono / WhatsApp" style="margin-bottom:8px">
+            <button class="btn-primary" type="submit">Enviar</button>
+          </form>
+        </aside>
+
+        <div style="flex:1;min-width:280px;">
+          <h4 style="color:var(--gold);margin-top:0">Información</h4>
+          <p style="color:var(--light-gray);margin-top:6px">Tel: <strong id="phoneDisplay">+504 9520-3729</strong></p>
+          <p style="color:var(--light-gray)">Horario: Lun - Sab 9:00 - 19:00</p>
+          <div style="margin-top:10px;">
+            <span class="pill">Plaza Ciudad Nueva</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CATALOGO -->
+  <section id="catalogo" aria-labelledby="catalogo-title">
+    <div class="catalog-header">
+      <h3 id="catalogo-title" style="color:var(--gold);margin:0">Catálogo de Productos Masculinos</h3>
+      <div class="catalog-controls">
+        <a href="#" id="volverBtnTop" class="volver-btn">Volver al Inicio</a>
+      </div>
+    </div>
+
+    <div class="book-wrap" id="bookWrap">
+      <!-- 20 productos (imágenes desde source.unsplash.com por categoría para vistas representativas) -->
+      <div class="page-card">
+        <img src="Gel.jpg" alt="Gel fijador">
+        <div class="product-title">Gel Fijador Pro</div>
+        <div class="product-desc">Fijación fuerte sin residuos, acabado brillante.</div>
+        <div class="product-price">L.120</div>
+      </div>
+
+      <div class="page-card">
+        <img src="prestobb.jpg" alt="Máquina de afeitar">
+        <div class="product-title">Prestobarba</div>
+        <div class="product-desc">Cuchillas de precisión para afeitado cómodo.</div>
+        <div class="product-price">L.150</div>
+      </div>
+
+      <div class="page-card">
+        <img src="aceite.jpg" alt="Aceite para barba">
+        <div class="product-title">Aceite para Barba</div>
+        <div class="product-desc">Nutre y suaviza con aroma amaderado.</div>
+        <div class="product-price">L.200</div>
+      </div>
+
+      <div class="page-card">
+        <img src="anticai.jpg" alt="Shampoo anticaida">
+        <div class="product-title">Shampoo Anticaída</div>
+        <div class="product-desc">Estimula cuero cabelludo y fortalece el folículo.</div>
+        <div class="product-price">L.140</div>
+      </div>
+
+      <div class="page-card">
+        <img src="filtro.jpg" alt="Protector solar">
+        <div class="product-title">Filtro Solar UV</div>
+        <div class="product-desc">Protección ligera, no grasa, SPF 50.</div>
+        <div class="product-price">L.130</div>
+      </div>
+
+      <div class="page-card">
+        <img src="espuma.jpg" alt="Espuma de afeitar">
+        <div class="product-title">Espuma Afeitadora</div>
+        <div class="product-desc">Espuma cremosa para afeitado suave.</div>
+        <div class="product-price">L.90</div>
+      </div>
+
+      <div class="page-card">
+        <img src="Refrescante.jpg" alt="Aftershave">
+        <div class="product-title">Aftershave Refrescante</div>
+        <div class="product-desc">Calma la piel y evita irritaciones.</div>
+        <div class="product-price">L.180</div>
+      </div>
+
+      <div class="page-card">
+        <img src="Desodorante 48h.jpg" alt="Desodorante">
+        <div class="product-title">Desodorante 48h</div>
+        <div class="product-desc">Protección duradera sin manchas.</div>
+        <div class="product-price">L.110</div>
+      </div>
+
+      <div class="page-card">
+        <img src="mate.jpg" alt="Pomada">
+        <div class="product-title">Pomada Mate</div>
+        <div class="product-desc">Fijación media, acabado natural sin brillo.</div>
+        <div class="product-price">L.160</div>
+      </div>
+
+      <div class="page-card">
+        <img src="Mascarilla Nutritiva.jpg" alt="Mascarilla capilar">
+        <div class="product-title">Mascarilla Nutritiva</div>
+        <div class="product-desc">Hidratación profunda para cabello reseco.</div>
+        <div class="product-price">L.220</div>
+      </div>
+
+      <div class="page-card">
+        <img src="Bb.jpg" alt="Bálsamo para barba">
+        <div class="product-title">Bálsamo para Barba</div>
+        <div class="product-desc">Controla el frizz y da forma al estilo.</div>
+        <div class="product-price">L.170</div>
+      </div>
+
+      <div class="page-card">
+        <img src="Recortadora Multiusos.jpg" alt="Recortadora">
+        <div class="product-title">Recortadora Multiusos</div>
+        <div class="product-desc">Precisión para barba y cabello.</div>
+        <div class="product-price">L.850</div>
+      </div>
+
+      <div class="page-card">
+        <img src="Peine Profesional.jpg" alt="Peine">
+        <div class="product-title">Peine Profesional</div>
+        <div class="product-desc">Diseñado para peinados detallados.</div>
+        <div class="product-price">L.60</div>
+      </div>
+
+      <div class="page-card">
+        <img src="Gel bano.jpg" alt="Gel de baño">
+        <div class="product-title">Gel de Baño Energizante</div>
+        <div class="product-desc">Aroma cítrico, limpia sin resecar.</div>
+        <div class="product-price">L.120</div>
+      </div>
+
+      <div class="page-card">
+        <img src="acondio.jpg" alt="Acondicionador">
+        <div class="product-title">Acondicionador Nutritivo</div>
+        <div class="product-desc">Suaviza y desenreda sin apelmazar.</div>
+        <div class="product-price">L.130</div>
+      </div>
+
+      <div class="page-card">
+        <img src="limpiador.jpg" alt="Limpiador facial">
+        <div class="product-title">Limpiador Facial</div>
+        <div class="product-desc">Limpieza profunda, adecuada para piel masculina.</div>
+        <div class="product-price">L.110</div>
+      </div>
+
+      <div class="page-card">
+        <img src="exfo.jpg" alt="Exfoliante">
+        <div class="product-title">Exfoliante Facial</div>
+        <div class="product-desc">Elimina células muertas y prepara la piel.</div>
+        <div class="product-price">L.150</div>
+      </div>
+
+      <div class="page-card">
+        <img src="hidratacion.jpg" alt="Hidratante facial">
+        <div class="product-title">Hidratante Diario</div>
+        <div class="product-desc">Textura ligera, acabado mate y protección.</div>
+        <div class="product-price">L.160</div>
+      </div>
+
+      <div class="page-card">
+        <img src="pp.jpg" alt="Perfume">
+        <div class="product-title">Perfume Dior</div>
+        <div class="product-desc">Un perfume que deja huella: intenso, misterioso y absolutamente irresistible.</div>
+        <div class="product-price">L.1,800</div>
+      </div>
+
+      <div class="page-card">
+        <img src="Clay.jpg" alt="Clay">
+        <div class="product-title">Clay Moldeador</div>
+        <div class="product-desc">Fijación fuerte, textura natural.</div>
+        <div class="product-price">L.150</div>
+      </div>
+
+      <div class="page-card">
+        <img src="TT.jpg" alt="Tónico capilar">
+        <div class="product-title">Tónico Capilar</div>
+        <div class="product-desc">Estimula el cuero cabelludo y da volumen.</div>
+        <div class="product-price">L.180</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:26px;">
+      <a href="#" id="volverBtn" class="volver-btn">Volver al Inicio</a>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>The Men's Spot</strong> </p>
+    <p style="color:var(--light-gray)">Diseño Grupo 1 — CURC</p>
+  </footer>
+
+ 
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:linear-gradient(0deg,rgba(0,0,0,0.6),rgba(0,0,0,0.6));z-index:120;">
+    <div class="box" style="background:linear-gradient(180deg,var(--deep-gray),#0d0d0d);padding:22px;border-radius:12px;max-width:480px;width:92%;border:1px solid rgba(255,255,255,0.04)">
+      <h3 style="color:var(--gold);margin-top:0">Solicitud recibida</h3>
+      <p style="color:var(--light-gray)">Gracias. Hemos recibido tu solicitud de reserva. Te contactaremos por WhatsApp o llamada para confirmar la disponibilidad.</p>
+      <div style="display:flex;justify-content:flex-end;margin-top:14px">
+        <button onclick="closeModal()" class="btn-primary">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Configuración básica: reemplaza teléfono si lo deseas ---
+    const businessPhone = '+50495203729'; // reemplaza con tu número (sin espacios ni guiones)
+    document.getElementById('phoneDisplay').textContent = businessPhone.replace('+504','+504 ');
+
+    // --- Reserva (cliente) ---
+    const bookingForm = document.getElementById('bookingForm');
+    const contactForm = document.getElementById('contactForm');
+    const modal = document.getElementById('modal');
+
+    bookingForm && bookingForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = new FormData(bookingForm);
+      if(!data.get('name') || !data.get('phone') || !data.get('service')) {
+        alert('Por favor completa los campos requeridos.');
+        return;
+      }
+      showModal();
+      bookingForm.reset();
+    });
+
+    contactForm && contactForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = new FormData(contactForm);
+      if(!data.get('cname') || !data.get('cemail')) { alert('Completa nombre y correo.'); return; }
+      alert('Gracias. Hemos recibido tu mensaje.');
+      contactForm.reset();
+    });
+
+    function showModal(){
+      modal.style.display='flex';
+      modal.setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      modal.style.display='none';
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    // --- WhatsApp quick booking ---
+    function openWhatsApp(){
+      const defaultText = encodeURIComponent('Hola, quiero reservar una cita en Caballeros 360°.'); 
+      const phone = businessPhone.replace(/\D/g,'');
+      window.open('https://wa.me/'+phone+'?text='+defaultText,'_blank');
+    }
+
+    // Catalogo open/close
+    const openCatalogo = document.getElementById('openCatalogo');
+    const catalogo = document.getElementById('catalogo');
+    const volverBtn = document.getElementById('volverBtn');
+    const volverBtnTop = document.getElementById('volverBtnTop');
+    const main = document.querySelector('main');
+
+    openCatalogo.addEventListener('click',(e)=>{
+      e.preventDefault();
+      main.style.display='none';
+      catalogo.classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+    function volverCatalogo(){
+      catalogo.classList.remove('active');
+      main.style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    volverBtn.addEventListener('click',(e)=>{ e.preventDefault(); volverCatalogo(); });
+    volverBtnTop.addEventListener('click',(e)=>{ e.preventDefault(); volverCatalogo(); });
+
+    // accessibility: close modal with Esc
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+  </script>
+  
+</body>
+
+
+
+
+
+</html>
