@@ -211,15 +211,16 @@
       padding:8px;border-radius:8px;font-weight:700;color:var(--white)
     }
 
-    /* GALERÍA */
+    /* GALERÍA - MÁS GRANDE */
     .gallery-grid{
-      display:grid;grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));gap:10px;
+      display:grid;grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));gap:16px;
     }
     .gallery-grid img{
-      width:100%;height:140px;object-fit:cover;border-radius:10px;
-      border:1px solid rgba(255,255,255,0.04);transition:var(--transition)
+      width:100%;height:220px;object-fit:cover;border-radius:12px;
+      border:1px solid rgba(255,255,255,0.04);transition:var(--transition);
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);
     }
-    .gallery-grid img:hover{transform:scale(1.03)}
+    .gallery-grid img:hover{transform:scale(1.05);box-shadow:0 16px 40px rgba(0,0,0,0.6)}
 
     /* MAPA */
     .map-frame{
@@ -227,25 +228,27 @@
       border:1px solid rgba(255,255,255,0.04);margin-top:12px
     }
 
-    /* CATÁLOGO */
+    /* CATÁLOGO - TÍTULO BIEN VISIBLE */
     #catalogo{
       position:fixed;top:0;left:0;width:100%;height:100%;overflow-y:auto;
       background:linear-gradient(180deg,var(--deep-gray),#0a0a0a);z-index:50;
-      padding:40px 5vw;display:none;flex-direction:column;
+      padding:80px 5vw 40px;display:none;flex-direction:column;
       transform:translateY(100%);transition:transform 0.5s ease;
     }
     #catalogo.active{display:flex;transform:translateY(0);}
     .catalog-header{
       display:flex;justify-content:space-between;align-items:center;gap:12px;
-      flex-wrap:wrap;margin-bottom:22px
+      flex-wrap:wrap;margin-bottom:32px;position:sticky;top:0;
+      background:linear-gradient(180deg,var(--deep-gray),#0a0a0a);padding:20px 0;
+      z-index:10;border-bottom:1px solid rgba(255,255,255,0.08);
     }
     .book-wrap{
-      display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));gap:20px;
+      display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));gap:22px;
     }
     .page-card{
       background:linear-gradient(180deg,#121212,#0d0d0d);
       border-radius:12px;border:1px solid rgba(255,255,255,0.04);
-      box-shadow:0 12px 30px rgba(0,0,0,.6);padding:14px;position:relative;
+      box-shadow:0 12px 30px rgba(0,0,0,.6);padding:16px;position:relative;
       overflow:hidden;transition:transform .6s, box-shadow .3s;
       display:flex;flex-direction:column;
     }
@@ -353,7 +356,7 @@
       .form-row{flex-direction:column}
       .map-frame{height:250px}
       .menu-toggle{display:block}
-      .nav-links{display:none !important} /* Ocultamos el menú horizontal */
+      .nav-links{display:none !important}
     }
 
     @media (max-width: 500px) {
@@ -382,7 +385,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h3>The Men's Spot</h3>
-      <button class="close-sidebar" id="closeSidebar">Close</button>
+      <button class="close-sidebar" id="closeSidebar">X</button>
     </div>
     <nav class="sidebar-links">
       <a href="#top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Inicio</a>
@@ -501,6 +504,7 @@
       </div>
     </section>
 
+    <!-- SERVICIOS BÁSICOS -->
     <section id="servicios-basicos" class="section" style="margin-top: 40px;">
       <h3 style="text-align: center; margin-bottom: 20px;">Servicios Clásicos — Estilo a Precio Justo</h3>
       <p style="text-align:center; color:var(--light-gray); margin-bottom:30px;">
@@ -533,7 +537,7 @@
       </div>
     </section>
 
-    <!-- GALERÍA -->
+    <!-- GALERÍA - MÁS GRANDE -->
     <section id="galeria" class="section" aria-labelledby="galeria-title">
       <h3 id="galeria-title">Galería</h3>
       <div class="gallery-grid">
@@ -544,7 +548,6 @@
         <img src="barba.jpg" alt="Barba" loading="lazy">
         <img src="Corte.jpg" alt="Corte" loading="lazy">
         <img src="herramientas.jpg" alt="Herramientas" loading="lazy">
-        <img src="lounge.jpg" alt="Lounge" loading="lazy">
       </div>
     </section>
 
@@ -594,12 +597,29 @@
     </div>
 
     <div class="book-wrap" id="bookWrap">
-      <!-- Productos aquí (igual que antes) -->
       <div class="page-card"><img src="Gel.jpg" alt="Gel"><div class="product-title">Gel Fijador Pro</div><div class="product-desc">Fijación fuerte sin residuos, acabado brillante.</div><div class="product-price">L.120</div></div>
-      <!-- ... resto de productos ... -->
+      <div class="page-card"><img src="prestobb.jpg" alt="Prestobarba"><div class="product-title">Prestobarba</div><div class="product-desc">Cuchillas de precisión para afeitado cómodo.</div><div class="product-price">L.150</div></div>
+      <div class="page-card"><img src="aceite.jpg" alt="Aceite"><div class="product-title">Aceite para Barba</div><div class="product-desc">Nutre y suaviza con aroma amaderado.</div><div class="product-price">L.200</div></div>
+      <div class="page-card"><img src="anticai.jpg" alt="Anticaída"><div class="product-title">Shampoo Anticaída</div><div class="product-desc">Estimula cuero cabelludo y fortalece el folículo.</div><div class="product-price">L.140</div></div>
+      <div class="page-card"><img src="filtro.jpg" alt="Filtro"><div class="product-title">Filtro Solar UV</div><div class="product-desc">Protección ligera, no grasa, SPF 50.</div><div class="product-price">L.130</div></div>
+      <div class="page-card"><img src="espuma.jpg" alt="Espuma"><div class="product-title">Espuma Afeitadora</div><div class="product-desc">Espuma cremosa para afeitado suave.</div><div class="product-price">L.90</div></div>
+      <div class="page-card"><img src="Refrescante.jpg" alt="Aftershave"><div class="product-title">Aftershave Refrescante</div><div class="product-desc">Calma la piel y evita irritaciones.</div><div class="product-price">L.180</div></div>
+      <div class="page-card"><img src="Desodorante 48h.jpg" alt="Desodorante"><div class="product-title">Desodorante 48h</div><div class="product-desc">Protección duradera sin manchas.</div><div class="product-price">L.110</div></div>
+      <div class="page-card"><img src="mate.jpg" alt="Pomada"><div class="product-title">Pomada Mate</div><div class="product-desc">Fijación media, acabado natural sin brillo.</div><div class="product-price">L.160</div></div>
+      <div class="page-card"><img src="Mascarilla Nutritiva.jpg" alt="Mascarilla"><div class="product-title">Mascarilla Nutritiva</div><div class="product-desc">Hidratación profunda para cabello reseco.</div><div class="product-price">L.220</div></div>
+      <div class="page-card"><img src="Bb.jpg" alt="Bálsamo"><div class="product-title">Bálsamo para Barba</div><div class="product-desc">Controla el frizz y da forma al estilo.</div><div class="product-price">L.170</div></div>
+      <div class="page-card"><img src="Recortadora Multiusos.jpg" alt="Recortadora"><div class="product-title">Recortadora Multiusos</div><div class="product-desc">Precisión para barba y cabello.</div><div class="product-price">L.850</div></div>
+      <div class="page-card"><img src="Peine Profesional.jpg" alt="Peine"><div class="product-title">Peine Profesional</div><div class="product-desc">Diseñado para peinados detallados.</div><div class="product-price">L.60</div></div>
+      <div class="page-card"><img src="Gel bano.jpg" alt="Gel baño"><div class="product-title">Gel de Baño Energizante</div><div class="product-desc">Aroma cítrico, limpia sin resecar.</div><div class="product-price">L.120</div></div>
+      <div class="page-card"><img src="acondio.jpg" alt="Acondicionador"><div class="product-title">Acondicionador Nutritivo</div><div class="product-desc">Suaviza y desenreda sin apelmazar.</div><div class="product-price">L.130</div></div>
+      <div class="page-card"><img src="limpiador.jpg" alt="Limpiador"><div class="product-title">Limpiador Facial</div><div class="product-desc">Limpieza profunda para piel masculina.</div><div class="product-price">L.110</div></div>
+      <div class="page-card"><img src="exfo.jpg" alt="Exfoliante"><div class="product-title">Exfoliante Facial</div><div class="product-desc">Elimina células muertas y prepara la piel.</div><div class="product-price">L.150</div></div>
+      <div class="page-card"><img src="hidratacion.jpg" alt="Hidratante"><div class="product-title">Hidratante Diario</div><div class="product-desc">Textura ligera, acabado mate y protección.</div><div class="product-price">L.160</div></div>
+      <div class="page-card"><img src="pp.jpg" alt="Perfume"><div class="product-title">Perfume Premium</div><div class="product-desc">Intenso, misterioso y absolutamente irresistible.</div><div class="product-price">L.1,800</div></div>
+      <div class="page-card"><img src="Clay.jpg" alt="Clay"><div class="product-title">Clay Moldeador</div><div class="product-desc">Fijación fuerte, textura natural.</div><div class="product-price">L.150</div></div>
     </div>
 
-    <div style="text-align:center;margin-top:26px;">
+    <div style="text-align:center;margin-top:32px;">
       <a href="#" id="volverBtn" class="volver-btn">Volver al Inicio</a>
     </div>
   </section>
@@ -615,7 +635,7 @@
 
   <div class="calendar-modal" id="calendarModal">
     <div class="calendar-modal-content">
-      <div class="modal-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v12zM7 10h5v5H7z"/></svg></div>
+      <div class="modal-icon">Scissors</div>
       <div class="modal-title" id="modalTitle"></div>
       <div class="modal-promo" id="modalPromo"></div>
       <div class="modal-buttons">
@@ -631,7 +651,7 @@
   </footer>
 
   <script>
-    // === MENÚ LATERAL MÓVIL ===
+    // === MENÚ LATERAL ===
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
     const closeSidebar = document.getElementById('closeSidebar');
@@ -652,49 +672,43 @@
     closeSidebar.addEventListener('click', closeMenu);
     overlay.addEventListener('click', closeMenu);
 
-    // Cerrar al hacer clic en enlace
-    document.querySelectorAll('.sidebar-links a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        if (link.getAttribute('href').startsWith('#')) {
-          closeMenu();
-          setTimeout(() => {
-            document.querySelector(link.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
-          }, 300);
-        }
-      });
-    });
-
-    // Catálogo
+    // === CATÁLOGO - REDIRECCIÓN CORRECTA ===
     const openCatalogo = document.getElementById('openCatalogo');
     const openCatalogoMobile = document.getElementById('openCatalogoMobile');
     const catalogo = document.getElementById('catalogo');
-    const volverBtn = document.getElementById('volverBtn');
-    const volverBtnTop = document.getElementById('volverBtnTop');
     const mainContent = document.getElementById('mainContent');
 
-    const openCat = (e) => {
+    const abrirCatalogo = (e) => {
       e.preventDefault();
       mainContent.style.opacity = '0';
       mainContent.style.visibility = 'hidden';
       catalogo.classList.add('active');
       document.body.style.overflow = 'hidden';
       closeMenu();
+      setTimeout(() => {
+        catalogo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
     };
 
-    openCatalogo.addEventListener('click', openCat);
-    openCatalogoMobile.addEventListener('click', openCat);
+    openCatalogo.addEventListener('click', abrirCatalogo);
+    openCatalogoMobile.addEventListener('click', abrirCatalogo);
 
-    const cerrarCatalogo = () => {
+    // Volver
+    document.getElementById('volverBtn').addEventListener('click', (e) => {
+      e.preventDefault();
       catalogo.classList.remove('active');
       mainContent.style.opacity = '1';
       mainContent.style.visibility = 'visible';
       document.body.style.overflow = 'auto';
-    };
+      setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 300);
+    });
 
-    volverBtn.addEventListener('click', (e) => { e.preventDefault(); cerrarCatalogo(); });
-    volverBtnTop.addEventListener('click', (e) => { e.preventDefault(); cerrarCatalogo(); });
+    document.getElementById('volverBtnTop').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('volverBtn').click();
+    });
 
-    // Formulario
+    // === FORMULARIO ===
     document.getElementById('bookingForm')?.addEventListener('submit', (e) => {
       e.preventDefault();
       document.getElementById('modal').style.display = 'flex';
@@ -704,7 +718,7 @@
       document.getElementById('modal').style.display = 'none';
     }
 
-    // Calendario (igual que antes)
+    // === CALENDARIO ===
     const calendarDays = document.getElementById('calendarDays');
     const promotions = {5: '20% OFF', 10: '2x1', 15: '30% OFF', 20: 'GRATIS', 27: '50% OFF'};
     const occupied = [3,7,12,18,25];
@@ -741,7 +755,7 @@
 
     document.getElementById('btnModalConfirm').onclick = () => {
       document.getElementById('calendarModal').style.display = 'none';
-      cerrarCatalogo();
+      document.getElementById('volverBtn').click();
       setTimeout(() => document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' }), 400);
     };
     document.getElementById('btnModalCancel').onclick = () => document.getElementById('calendarModal').style.display = 'none';
