@@ -29,7 +29,7 @@
       -webkit-font-smoothing:antialiased;line-height:1.45;
     }
 
-    /* NAV */
+    /* NAV - Responsive */
     .nav{
       position:sticky;top:0;z-index:60;
       display:flex;align-items:center;justify-content:space-between;
@@ -64,11 +64,15 @@
     }
     .cta:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(207,169,74,0.5)}
 
-    /* HAMBURGUESA */
+    /* HAMBURGUESA - Responsive */
     .menu-toggle{
       display:none;background:none;border:none;color:var(--gold);
       font-size:1.8rem;cursor:pointer;z-index:70;
+      padding:8px;
+      border-radius:8px;
+      transition:var(--transition);
     }
+    .menu-toggle:hover{background:rgba(207,169,74,0.1)}
 
     /* === MENÚ LATERAL MÓVIL === */
     .sidebar{
@@ -90,8 +94,10 @@
     .close-sidebar{
       background:none;border:none;color:var(--light-gray);font-size:1.6rem;
       cursor:pointer;transition:var(--transition);
+      padding:5px;
+      border-radius:5px;
     }
-    .close-sidebar:hover{color:var(--gold)}
+    .close-sidebar:hover{color:var(--gold);background:rgba(207,169,74,0.1)}
     .sidebar-links{
       display:flex;flex-direction:column;gap:4px;padding:0 16px;
     }
@@ -120,7 +126,7 @@
     }
     .overlay.active{opacity:1;visibility:visible}
 
-    /* HERO */
+    /* HERO - Responsive */
     .hero{
       display:grid;grid-template-columns:1fr minmax(300px, 420px);gap:clamp(20px, 5vw, 36px);
       padding:clamp(40px, 6vw, 56px) 5vw;align-items:center;
@@ -159,7 +165,7 @@
     .feature h4{margin:0 0 6px 0;color:var(--gold);font-size:0.9rem}
     .feature p{margin:0;color:var(--light-gray);font-size:0.8125rem}
 
-    /* BOOKING CARD */
+    /* BOOKING CARD - Responsive */
     .card{
       background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border-radius:var(--card-radius);padding:18px;
@@ -189,7 +195,7 @@
     .btn-primary:hover::before{width:300px;height:300px}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(207,169,74,0.4)}
 
-    /* SECCIONES */
+    /* SECCIONES - Responsive */
     .section{padding:clamp(28px, 6vw, 36px) 5vw}
     .section h3{color:var(--gold);margin-bottom:14px;animation:glow 3s ease-in-out infinite}
 
@@ -211,7 +217,7 @@
       padding:8px;border-radius:8px;font-weight:700;color:var(--white)
     }
 
-    /* GALERÍA - MÁS GRANDE */
+    /* GALERÍA - Responsive */
     .gallery-grid{
       display:grid;grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));gap:16px;
     }
@@ -222,13 +228,13 @@
     }
     .gallery-grid img:hover{transform:scale(1.05);box-shadow:0 16px 40px rgba(0,0,0,0.6)}
 
-    /* MAPA */
+    /* MAPA - Responsive */
     .map-frame{
       width:100%;height:300px;border-radius:12px;overflow:hidden;
       border:1px solid rgba(255,255,255,0.04);margin-top:12px
     }
 
-    /* CATÁLOGO - TÍTULO BIEN VISIBLE */
+    /* CATÁLOGO - Responsive */
     #catalogo{
       position:fixed;top:0;left:0;width:100%;height:100%;overflow-y:auto;
       background:linear-gradient(180deg,var(--deep-gray),#0a0a0a);z-index:50;
@@ -269,7 +275,7 @@
       font-weight:800;padding:10px 18px;border-radius:10px;text-decoration:none;
     }
 
-    /* CALENDARIO MEJORADO */
+    /* CALENDARIO - Responsive */
     .calendar-section{padding:60px 5vw;background:linear-gradient(180deg, rgba(207,169,74,0.02), transparent)}
     .calendar-container{
       max-width:1200px;margin:0 auto;background:linear-gradient(145deg,var(--deep-gray),#0a0a0a);
@@ -395,7 +401,7 @@
       width:20px;height:20px;border-radius:4px;
     }
 
-    /* MODAL MEJORADO */
+    /* MODAL - Responsive */
     .modal,.calendar-modal{
       display:none;position:fixed;top:0;left:0;width:100%;height:100%;
       background:rgba(0,0,0,0.9);justify-content:center;align-items:center;
@@ -451,7 +457,7 @@
       transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.4);
     }
 
-    /* CONTACTO */
+    /* CONTACTO - Responsive */
     .contact-grid{
       display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:18px;
       margin-top:12px;
@@ -472,32 +478,134 @@
     @keyframes glow{0%,100%{text-shadow:0 0 10px rgba(207,169,74,0.5)}50%{text-shadow:0 0 20px rgba(207,169,74,0.8)}}
     @keyframes promoGlow{0%,100%{box-shadow:0 0 20px rgba(207,169,74,0.6)}50%{box-shadow:0 0 35px rgba(207,169,74,0.9)}}
 
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .hero{grid-template-columns:1fr;gap:20px;padding:28px 4vw}
-      .nav{padding:12px 4vw}
-      .brand h1{font-size:16px}
-      .form-row{flex-direction:column}
-      .map-frame{height:250px}
-      .menu-toggle{display:block}
-      .nav-links{display:none !important}
+    /* === RESPONSIVE DESIGN COMPLETO === */
+    
+    /* Tablets y pantallas medianas */
+    @media (max-width: 1024px) {
+      .hero{grid-template-columns:1fr;gap:30px;padding:40px 4vw}
+      .services-grid{grid-template-columns:repeat(auto-fill, minmax(220px, 1fr))}
+      .gallery-grid{grid-template-columns:repeat(auto-fill, minmax(120px, 1fr))}
+      .gallery-grid img{height:180px}
+      .book-wrap{grid-template-columns:repeat(auto-fill, minmax(200px, 1fr))}
+      .calendar-container{padding:25px}
       .time-slots{grid-template-columns:repeat(3,1fr)}
     }
-
-    @media (max-width: 500px) {
+    
+    /* Tablets pequeñas y móviles grandes */
+    @media (max-width: 768px) {
+      .nav{padding:12px 4vw}
+      .brand h1{font-size:16px}
+      .brand p{font-size:11px}
+      .logo{width:48px;height:48px}
+      .menu-toggle{display:block}
+      .nav-links{display:none !important}
+      .hero{padding:30px 4vw}
+      .features{flex-direction:column}
+      .feature{min-width:100%}
+      .services-grid{grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:15px}
+      .service-card{padding:15px}
+      .gallery-grid{grid-template-columns:repeat(auto-fill, minmax(100px, 1fr));gap:12px}
+      .gallery-grid img{height:150px}
+      .book-wrap{grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));gap:15px}
+      .page-card img{height:140px}
+      .calendar-container{padding:20px}
+      .calendar-header{flex-direction:column;gap:15px}
+      .current-month{font-size:1.5rem;min-width:200px}
+      .calendar-tools{justify-content:center}
+      .weekdays{font-size:0.8rem;gap:5px}
+      .days{gap:5px}
+      .day{font-size:0.9rem;padding:5px}
+      .day-number{font-size:1rem}
+      .promo-badge{font-size:8px;padding:2px 4px}
+      .quick-reservation{padding:15px}
+      .quick-slots{gap:10px}
+      .quick-slot{padding:10px 15px;font-size:0.9rem}
+      .modal-content,.calendar-modal-content{padding:30px}
+      .time-slots{grid-template-columns:repeat(2,1fr);gap:8px}
+      .time-slot{padding:10px;font-size:0.9rem}
+      .modal-buttons{flex-direction:column;gap:10px}
+      .modal-btn{width:100%}
+      .map-frame{height:250px}
+    }
+    
+    /* Móviles medianos */
+    @media (max-width: 600px) {
       .nav{padding:10px 3vw}
-      .brand h1{font-size:1rem}
-      .brand p{font-size:0.7rem}
-      .logo{width:44px;height:44px}
-      .feature{min-width:120px;padding:10px}
+      .brand h1{font-size:14px}
+      .brand p{font-size:10px}
+      .logo{width:40px;height:40px}
+      .hero{padding:25px 3vw}
+      .hero h2{font-size:1.6rem}
+      .hero p{font-size:0.95rem}
+      .feature{padding:10px}
       .feature h4{font-size:0.85rem}
       .feature p{font-size:0.75rem}
-      .btn-primary{font-size:0.9rem;padding:12px}
-      .page-card img{height:160px}
-      .calendar-container{padding:20px}
-      .day{font-size:0.9rem}
-      .time-slots{grid-template-columns:repeat(2,1fr)}
-      .modal-content,.calendar-modal-content{padding:25px}
+      .services-grid{grid-template-columns:1fr;gap:12px}
+      .service-card{padding:12px}
+      .gallery-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+      .gallery-grid img{height:120px}
+      .book-wrap{grid-template-columns:1fr;gap:12px}
+      .page-card{padding:12px}
+      .page-card img{height:120px}
+      .calendar-container{padding:15px}
+      .current-month{font-size:1.3rem;min-width:180px}
+      .nav-btn{width:35px;height:35px}
+      .service-filter{padding:6px 12px;font-size:0.8rem}
+      .weekdays{font-size:0.7rem}
+      .day{font-size:0.8rem;padding:3px}
+      .day-number{font-size:0.9rem}
+      .day-status{font-size:0.6rem}
+      .promo-badge{font-size:7px;top:-3px;right:-3px}
+      .quick-reservation h4{font-size:1.1rem}
+      .quick-slot{padding:8px 12px;font-size:0.8rem}
+      .modal-content,.calendar-modal-content{padding:20px}
+      .modal-title{font-size:1.5rem}
+      .modal-date{font-size:1rem}
+      .modal-promo{font-size:1rem;padding:10px}
+      .time-slot{padding:8px;font-size:0.8rem}
+      .contact-grid{grid-template-columns:1fr}
+      .map-frame{height:200px}
+    }
+    
+    /* Móviles pequeños */
+    @media (max-width: 400px) {
+      .nav{padding:8px 2vw}
+      .brand h1{font-size:12px}
+      .brand p{font-size:9px}
+      .logo{width:36px;height:36px}
+      .menu-toggle{font-size:1.5rem}
+      .hero{padding:20px 2vw}
+      .hero h2{font-size:1.4rem}
+      .hero p{font-size:0.9rem}
+      .feature{padding:8px}
+      .feature h4{font-size:0.8rem}
+      .feature p{font-size:0.7rem}
+      .service-card{padding:10px}
+      .gallery-grid{gap:8px}
+      .gallery-grid img{height:100px}
+      .page-card img{height:100px}
+      .calendar-container{padding:12px}
+      .current-month{font-size:1.1rem;min-width:150px}
+      .nav-btn{width:30px;height:30px}
+      .service-filter{padding:5px 10px;font-size:0.75rem}
+      .weekdays{font-size:0.65rem;gap:3px}
+      .days{gap:3px}
+      .day{font-size:0.7rem;padding:2px}
+      .day-number{font-size:0.8rem}
+      .day-status{display:none}
+      .promo-badge{font-size:6px;top:-2px;right:-2px}
+      .quick-reservation{padding:12px}
+      .quick-reservation h4{font-size:1rem}
+      .quick-slot{padding:6px 10px;font-size:0.75rem}
+      .modal-content,.calendar-modal-content{padding:15px}
+      .modal-title{font-size:1.3rem}
+      .modal-icon{width:50px;height:50px}
+      .modal-icon svg{width:25px;height:25px}
+      .time-slot{padding:6px;font-size:0.75rem}
+      .modal-btn{padding:10px 20px;font-size:0.8rem}
+      .calendar-legend{gap:10px}
+      .legend-item{font-size:0.8rem}
+      .legend-color{width:16px;height:16px}
     }
 
     html{scroll-behavior:smooth}
@@ -512,7 +620,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h3>The Men's Spot</h3>
-      <button class="close-sidebar" id="closeSidebar">X</button>
+      <button class="close-sidebar" id="closeSidebar">✕</button>
     </div>
     <nav class="sidebar-links">
       <a href="#top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Inicio</a>
@@ -540,7 +648,7 @@
       </div>
     </div>
 
-    <button class="menu-toggle" aria-label="Abrir menú" id="menuToggle">Menu</button>
+    <button class="menu-toggle" aria-label="Abrir menú" id="menuToggle">☰</button>
 
     <nav class="nav-links" role="navigation" aria-label="Menú principal">
       <a href="#top">Inicio</a>
@@ -618,16 +726,16 @@
     <section id="servicios" class="section" aria-labelledby="servicios-title">
       <h3 id="servicios-title">Nuestros Servicios</h3>
       <div class="services-grid" role="list">
-        <article class="service-card" role="listitem"><div class="price">L.350</div><h4>Corte Premium</h4><p>Corte con técnica personalizada, lavado y arreglo de patillas. Incluye toalla caliente.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.600</div><h4>Facial Masculino</h4><p>Limpieza profunda, exfoliación y tratamiento según tipo de piel.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.500</div><h4>Masaje 30 min</h4><p>Masaje de cuello y hombros ideal para liberar tensión.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.250</div><h4>Manicure / Pedicure</h4><p>Cuidado de uñas y manos/pies con hidratación profesional.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.1800</div><h4>Paquete VIP</h4><p>Corte premium + facial + masaje 30 min + bebida premium. Prioridad de agenda.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.215</div><h4>Barba Premium</h4><p>Diseño y perfilado de barba con visajismo, adaptando la forma a la estructura facial.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.200</div><h4>Depilación de Cejas</h4><p>Depilación con cera o hilo para cejas perfectamente definidas.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.750</div><h4>Tinte + Hidratación</h4><p>Color y nutrición profunda en un solo tratamiento.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.3,800</div><h4>Paquete Esposo</h4><p>Corte premium + Afeitado + Facial + Manicure/Pedicure + Hidratación + Masaje + Bebida premium.</p></article>
-        <article class="service-card" role="listitem"><div class="price">L.5,500</div><h4>Preboda VIP</h4><p>Corte y peinado novio + 2 acompañantes + Bebidas exclusivas + Sesión fotográfica profesional.</p></article>
+        <article class="service-card" role="listitem" style="--index:0"><div class="price">L.350</div><h4>Corte Premium</h4><p>Corte con técnica personalizada, lavado y arreglo de patillas. Incluye toalla caliente.</p></article>
+        <article class="service-card" role="listitem" style="--index:1"><div class="price">L.600</div><h4>Facial Masculino</h4><p>Limpieza profunda, exfoliación y tratamiento según tipo de piel.</p></article>
+        <article class="service-card" role="listitem" style="--index:2"><div class="price">L.500</div><h4>Masaje 30 min</h4><p>Masaje de cuello y hombros ideal para liberar tensión.</p></article>
+        <article class="service-card" role="listitem" style="--index:3"><div class="price">L.250</div><h4>Manicure / Pedicure</h4><p>Cuidado de uñas y manos/pies con hidratación profesional.</p></article>
+        <article class="service-card" role="listitem" style="--index:4"><div class="price">L.1800</div><h4>Paquete VIP</h4><p>Corte premium + facial + masaje 30 min + bebida premium. Prioridad de agenda.</p></article>
+        <article class="service-card" role="listitem" style="--index:5"><div class="price">L.215</div><h4>Barba Premium</h4><p>Diseño y perfilado de barba con visajismo, adaptando la forma a la estructura facial.</p></article>
+        <article class="service-card" role="listitem" style="--index:6"><div class="price">L.200</div><h4>Depilación de Cejas</h4><p>Depilación con cera o hilo para cejas perfectamente definidas.</p></article>
+        <article class="service-card" role="listitem" style="--index:7"><div class="price">L.750</div><h4>Tinte + Hidratación</h4><p>Color y nutrición profunda en un solo tratamiento.</p></article>
+        <article class="service-card" role="listitem" style="--index:8"><div class="price">L.3,800</div><h4>Paquete Esposo</h4><p>Corte premium + Afeitado + Facial + Manicure/Pedicure + Hidratación + Masaje + Bebida premium.</p></article>
+        <article class="service-card" role="listitem" style="--index:9"><div class="price">L.5,500</div><h4>Preboda VIP</h4><p>Corte y peinado novio + 2 acompañantes + Bebidas exclusivas + Sesión fotográfica profesional.</p></article>
       </div>
     </section>
 
@@ -694,7 +802,7 @@
       </div>
     </section>
 
-    <!-- GALERÍA - MÁS GRANDE -->
+    <!-- GALERÍA -->
     <section id="galeria" class="section" aria-labelledby="galeria-title">
       <h3 id="galeria-title">Galería</h3>
       <div class="gallery-grid">
@@ -925,8 +1033,6 @@
     
     // Datos de ejemplo para promociones y días ocupados
     const monthData = {
-      // Estructura: { mes: { promotions: {}, occupied: [] } }
-      // Los días ocupados y promociones pueden variar por mes
       10: { // Noviembre (índice 10)
         promotions: {5: '20% OFF', 10: '2x1', 15: '30% OFF', 20: 'GRATIS', 27: '50% OFF'},
         occupied: [3, 7, 12, 18, 25]
