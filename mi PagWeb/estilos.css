@@ -1,4 +1,4 @@
-/* RESPONSIVE DESIGN */
+/* RESPONSIVE DESIGNn */
     @media(max-width:1200px){
       .hero{grid-template-columns:1fr;gap:28px;padding:40px 5vw}
       .hero .booking{max-width:500px;margin:0 auto}
