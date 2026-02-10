@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TEST - Smart Mirror</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        #loadingScreen.hidden {
+            display: none !important;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(212, 175, 55, 0.3);
+            border-top: 4px solid #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #content {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #d4af37;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <h1 style="font-size: 2em; margin-bottom: 20px;">THE MEN'S SPOT</h1>
+        <div class="spinner"></div>
+        <p style="margin-top: 20px; color: #d4af37;">Cargando...</p>
+    </div>
+    
+    <!-- Content -->
+    <div id="content">
+        <h1>✅ Smart Mirror Cargado</h1>
+        <p>Si ves esto, el loading screen funcionó correctamente</p>
+        <p style="margin-top: 20px; color: #d4af37;">Dispositivo detectado: <span id="device"></span></p>
+    </div>
+    
+    <script>
+        console.log('🚀 Script iniciado');
+        
+        // Detectar dispositivo
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        document.getElementById('device').textContent = isMobile ? 'Móvil/Tablet' : 'Desktop';
+        
+        // Ocultar loading después de 1.5 segundos
+        setTimeout(() => {
+            const loading = document.getElementById('loadingScreen');
+            if (loading) {
+                loading.classList.add('hidden');
+                console.log('✅ Loading screen ocultado');
+            }
+        }, 1500);
+    </script>
+</body>
+</html>

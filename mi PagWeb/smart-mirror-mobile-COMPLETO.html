@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>The Men's Spot - Smart Mirror AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .mirror-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+        }
+
+        /* Header */
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 50px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e5a9 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            color: #d4af37;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+        }
+
+        /* Video Mirror */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        #videoFeed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .mirror-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            pointer-events: none;
+            box-shadow: inset 0 0 100px rgba(212, 175, 55, 0.1);
+        }
+
+        .camera-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #d4af37;
+        }
+
+        .camera-placeholder-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .camera-placeholder-text {
+            font-size: 1.5em;
+            opacity: 0.7;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 380px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #d4af37;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .panel-title {
+            color: #d4af37;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            color: #d4af37;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 1.3em;
+        }
+
+        /* Style Grid */
+        .style-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .style-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            border: 2px solid #444;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .style-card:hover {
+            border-color: #d4af37;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .style-card.active {
+            border-color: #d4af37;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.15));
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .style-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .style-name {
+            color: #fff;
+            font-size: 0.95em;
+            font-weight: bold;
+        }
+
+        /* AI Analysis */
+        .ai-analysis {
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .analysis-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+
+        .analysis-label {
+            color: #b8b8b8;
+        }
+
+        .analysis-value {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        /* Recommendations */
+        .recommendation-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .recommendation-title {
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .recommendation-text {
+            color: #e0e0e0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .match-score {
+            display: inline-block;
+            background: #d4af37;
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+
+        /* NUEVO: Products Section */
+        .products-section {
+            background: rgba(212, 175, 55, 0.08);
+            border: 2px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 15px;
+        }
+
+        .products-title {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .product-item {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .product-item:hover {
+            border-color: #d4af37;
+            transform: translateX(5px);
+        }
+
+        .product-name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+
+        .product-desc {
+            color: #b8b8b8;
+            font-size: 0.85em;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        /* NUEVO: Color Recommendation */
+        .color-recommendation {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 15px;
+        }
+
+        .color-title {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1.05em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-suggestion {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .color-name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-preview {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #d4af37;
+        }
+
+        .color-desc {
+            color: #b8b8b8;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+
+        .color-match {
+            color: #d4af37;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* Shop Buttons */
+        .shop-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .shop-btn {
+            flex: 1;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .shop-btn:hover {
+            background: #d4af37;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Camera Controls */
+        .camera-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 50;
+        }
+
+        .control-btn {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn:hover {
+            background: #d4af37;
+            color: #000;
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .control-btn.active {
+            background: #d4af37;
+            color: #000;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #d4af37;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: #d4af37;
+            font-weight: bold;
+            z-index: 101;
+            display: none;
+        }
+
+        .status-indicator.active {
+            display: block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-screen.hidden {
+            display: none !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(212, 175, 55, 0.3);
+            border-top: 4px solid #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #d4af37;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        /* Scrollbar */
+        .control-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .control-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .control-panel::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 10px;
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE DESIGN - MOBILE FIRST */
+        /* ============================================ */
+        
+        /* Móviles pequeños (< 480px) */
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .logo {
+                font-size: 1.3em;
+            }
+            
+            .tagline {
+                font-size: 0.7em;
+                letter-spacing: 1px;
+            }
+            
+            .control-panel {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                top: auto;
+                width: 100%;
+                max-width: 100%;
+                border-radius: 20px 20px 0 0;
+                border: none;
+                border-top: 3px solid #d4af37;
+                max-height: 70vh;
+                padding: 20px 15px;
+                transform: translateY(calc(100% - 60px));
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .control-panel.expanded {
+                transform: translateY(0);
+            }
+            
+            .panel-title {
+                font-size: 1.1em;
+                cursor: pointer;
+                user-select: none;
+                position: relative;
+                padding-bottom: 15px;
+            }
+            
+            .panel-title::before {
+                content: '═══';
+                position: absolute;
+                top: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: #d4af37;
+                font-size: 1.2em;
+            }
+            
+            .style-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .style-card {
+                padding: 12px 8px;
+            }
+            
+            .style-icon {
+                font-size: 1.6em;
+            }
+            
+            .style-name {
+                font-size: 0.85em;
+            }
+            
+            .section-header {
+                font-size: 0.95em;
+            }
+            
+            .camera-controls {
+                bottom: calc(70vh + 20px);
+                flex-wrap: wrap;
+                padding: 0 10px;
+                gap: 8px;
+                transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .control-panel.expanded ~ .camera-controls {
+                bottom: calc(70vh + 20px);
+            }
+            
+            .control-btn {
+                padding: 10px 15px;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+            
+            .shop-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .shop-btn {
+                font-size: 0.9em;
+                padding: 12px;
+            }
+            
+            .ai-analysis {
+                padding: 12px;
+            }
+            
+            .analysis-item {
+                font-size: 0.85em;
+                margin-bottom: 8px;
+            }
+            
+            .recommendation-card {
+                padding: 12px;
+            }
+            
+            .recommendation-text {
+                font-size: 0.85em;
+            }
+            
+            .products-section {
+                padding: 12px;
+            }
+            
+            .product-item {
+                padding: 10px;
+                margin-bottom: 8px;
+            }
+            
+            .color-recommendation {
+                padding: 12px;
+            }
+            
+            .status-indicator {
+                top: 70px;
+                font-size: 0.85em;
+                padding: 8px 15px;
+            }
+        }
+        
+        /* Móviles medianos (481px - 767px) */
+        @media (min-width: 481px) and (max-width: 767px) {
+            .header {
+                padding: 20px 25px;
+            }
+            
+            .logo {
+                font-size: 1.5em;
+            }
+            
+            .tagline {
+                font-size: 0.75em;
+            }
+            
+            .control-panel {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                max-width: 100%;
+                border-radius: 20px 20px 0 0;
+                border: none;
+                border-top: 3px solid #d4af37;
+                max-height: 65vh;
+                transform: translateY(calc(100% - 65px));
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .control-panel.expanded {
+                transform: translateY(0);
+            }
+            
+            .panel-title {
+                cursor: pointer;
+                user-select: none;
+                position: relative;
+                padding-bottom: 15px;
+            }
+            
+            .panel-title::before {
+                content: '═══';
+                position: absolute;
+                top: -12px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: #d4af37;
+                font-size: 1.2em;
+            }
+            
+            .style-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .camera-controls {
+                bottom: calc(65vh + 25px);
+                transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .control-panel.expanded ~ .camera-controls {
+                bottom: calc(65vh + 25px);
+            }
+            
+            .shop-buttons {
+                flex-direction: row;
+            }
+        }
+
+        /* Tablets (768px - 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .control-panel {
+                position: absolute;
+                right: 20px;
+                bottom: 20px;
+                top: auto;
+                left: auto;
+                width: 380px;
+                max-height: 80vh;
+                border: 2px solid #d4af37;
+                border-radius: 20px;
+                transform: none;
+            }
+            
+            .panel-title::before {
+                display: none;
+            }
+            
+            .camera-controls {
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                position: fixed;
+            }
+            
+            .shop-buttons {
+                flex-direction: row;
+            }
+        }
+
+        /* Desktop y pantallas grandes (>= 1024px) */
+        @media (min-width: 1024px) {
+            .control-panel {
+                position: absolute;
+                right: 30px;
+                top: 50%;
+                bottom: auto;
+                left: auto;
+                transform: translateY(-50%);
+                width: 380px;
+                max-height: 90vh;
+                border: 2px solid #d4af37;
+                border-radius: 20px;
+            }
+            
+            .panel-title::before {
+                display: none;
+            }
+            
+            .header {
+                padding: 30px 50px;
+            }
+            
+            .logo {
+                font-size: 2em;
+            }
+            
+            .tagline {
+                font-size: 0.9em;
+                letter-spacing: 2px;
+            }
+            
+            .camera-controls {
+                bottom: 30px;
+                position: fixed;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .status-indicator {
+                top: 120px;
+            }
+        }
+
+        /* Landscape móvil */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .control-panel {
+                max-height: 85vh;
+            }
+            
+            .camera-controls {
+                bottom: 15px;
+            }
+        }
+        
+        /* Touch optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .style-card:active {
+                transform: scale(0.95);
+            }
+            
+            .control-btn:active {
+                transform: scale(0.95);
+            }
+            
+            .shop-btn:active {
+                transform: scale(0.98);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="logo" style="font-size: 3em; margin-bottom: 30px;">THE MEN'S SPOT</div>
+        <div class="spinner"></div>
+        <div class="loading-text">Iniciando Smart Mirror AI...</div>
+    </div>
+
+    <div class="mirror-container">
+
+        <!-- Status Indicator -->
+        <div class="status-indicator" id="statusIndicator">
+            🎥 Cámara Activa
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <div class="logo">THE MEN'S SPOT</div>
+            </div>
+            <div class="tagline">SMART MIRROR AI</div>
+        </div>
+
+        <!-- Video Feed -->
+        <div class="video-container">
+            <video id="videoFeed" autoplay playsinline muted></video>
+            <div class="mirror-overlay"></div>
+            
+            <div class="camera-placeholder" id="cameraPlaceholder">
+                <div class="camera-placeholder-icon">📸</div>
+                <div class="camera-placeholder-text">Presiona "Activar Cámara" para comenzar</div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="panel-title">🪞 Smart Mirror AI</div>
+
+            <!-- Estilos de Corte -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">✂️</span>
+                    <span>Estilos de Corte</span>
+                </div>
+                <div class="style-grid">
+                    <div class="style-card" onclick="selectStyle(this, 'Fade')">
+                        <div class="style-icon">🔥</div>
+                        <div class="style-name">Fade</div>
+                    </div>
+                    <div class="style-card" onclick="selectStyle(this, 'Pompadour')">
+                        <div class="style-icon">👑</div>
+                        <div class="style-name">Pompadour</div>
+                    </div>
+                    <div class="style-card" onclick="selectStyle(this, 'Buzz Cut')">
+                        <div class="style-icon">⚡</div>
+                        <div class="style-name">Buzz Cut</div>
+                    </div>
+                    <div class="style-card" onclick="selectStyle(this, 'Undercut')">
+                        <div class="style-icon">💎</div>
+                        <div class="style-name">Undercut</div>
+                    </div>
+                    <div class="style-card" onclick="selectStyle(this, 'Quiff')">
+                        <div class="style-icon">✨</div>
+                        <div class="style-name">Quiff</div>
+                    </div>
+                    <div class="style-card" onclick="selectStyle(this, 'Crew Cut')">
+                        <div class="style-icon">🎯</div>
+                        <div class="style-name">Crew Cut</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Análisis IA -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">🤖</span>
+                    <span>Análisis con IA</span>
+                </div>
+                <div class="ai-analysis" id="aiAnalysis">
+                    <div class="analysis-item">
+                        <span class="analysis-label">Forma de Rostro:</span>
+                        <span class="analysis-value" id="faceShape">-</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span class="analysis-label">Textura de Cabello:</span>
+                        <span class="analysis-value" id="hairTexture">-</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span class="analysis-label">Grosor:</span>
+                        <span class="analysis-value" id="hairThickness">-</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span class="analysis-label">Estilo Facial:</span>
+                        <span class="analysis-value" id="facialStyle">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recomendación de Corte -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">💡</span>
+                    <span>Recomendación de Corte</span>
+                </div>
+                <div class="recommendation-card" id="recommendation">
+                    <div class="recommendation-title">Esperando análisis...</div>
+                    <div class="recommendation-text">
+                        Activa la cámara y selecciona un estilo para recibir una recomendación personalizada basada en IA.
+                    </div>
+                </div>
+            </div>
+
+            <!-- NUEVO: Recomendación de Color -->
+            <div class="section" id="colorSection" style="display: none;">
+                <div class="section-header">
+                    <span class="section-icon">🎨</span>
+                    <span>Colores Recomendados</span>
+                </div>
+                <div class="color-recommendation" id="colorRecommendation">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+
+            <!-- NUEVO: Productos Recomendados -->
+            <div class="section" id="productsSection" style="display: none;">
+                <div class="section-header">
+                    <span class="section-icon">🛍️</span>
+                    <span>Kit de Cuidado Personalizado</span>
+                </div>
+                <div class="products-section" id="productsList">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+                
+                <!-- Botones de Tienda -->
+                <div class="shop-buttons">
+                    <a href="#" class="shop-btn" onclick="openOnlineStore(); return false;">
+                        🌐 Tienda Online
+                    </a>
+                    <a href="#" class="shop-btn" onclick="visitPhysicalStore(); return false;">
+                        📍 Visitar Local
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Controls -->
+        <div class="camera-controls">
+            <button class="control-btn" id="cameraBtn" onclick="toggleCamera()">
+                📸 Activar Cámara
+            </button>
+            <button class="control-btn" id="analyzeBtn" onclick="analyzeNow()" disabled>
+                🧠 Analizar Ahora
+            </button>
+            <button class="control-btn" id="captureBtn" onclick="capturePhoto()" disabled>
+                📷 Capturar Foto
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // CONFIGURACIÓN
+        // ========================================
+        
+        let stream = null;
+        let cameraActive = false;
+        let currentStyle = null;
+
+        // Datos de análisis IA
+        const analysisData = {
+            faceShapes: ['Ovalado', 'Cuadrado', 'Redondo', 'Corazón', 'Alargado'],
+            hairTextures: ['Liso', 'Ondulado', 'Rizado', 'Grueso'],
+            hairThickness: ['Fino', 'Medio', 'Grueso', 'Muy Grueso'],
+            facialStyles: ['Barba Completa', 'Barba Corta', 'Perilla', 'Sin Barba', 'Bigote']
+        };
+
+        // Recomendaciones de estilos
+        const styleRecommendations = {
+            'Fade': {
+                description: 'Perfecto para un look moderno y limpio. Este corte degradado combina profesionalismo con estilo urbano.',
+                bestFor: 'Rostros ovalados y cuadrados',
+                match: 95
+            },
+            'Pompadour': {
+                description: 'Estilo clásico con volumen que añade altura y sofisticación. Ideal para ocasiones formales.',
+                bestFor: 'Cabello grueso y rostros alargados',
+                match: 88
+            },
+            'Buzz Cut': {
+                description: 'Corte minimalista y de bajo mantenimiento. Perfecto para un estilo masculino y deportivo.',
+                bestFor: 'Todas las formas de rostro',
+                match: 92
+            },
+            'Undercut': {
+                description: 'Versátil y audaz, combina lados cortos con largo en la parte superior para máxima expresión.',
+                bestFor: 'Cabello liso a ondulado',
+                match: 90
+            },
+            'Quiff': {
+                description: 'Elegante peinado hacia atrás con volumen frontal. Equilibrio perfecto entre casual y formal.',
+                bestFor: 'Rostros ovalados y corazón',
+                match: 87
+            },
+            'Crew Cut': {
+                description: 'Corte militar clásico, práctico y siempre a la moda. Perfecto para hombres activos.',
+                bestFor: 'Bajo mantenimiento',
+                match: 91
+            }
+        };
+
+        // ========================================
+        // NUEVO: BASE DE DATOS DE PRODUCTOS - THE MEN'S SPOT
+        // ========================================
+        
+        const productsDatabase = {
+            'Liso': [
+                { name: 'Pomada Mate', desc: 'Fijación media, acabado natural sin brillo', price: 'L.160' },
+                { name: 'Gel Fijador Pro', desc: 'Fijación fuerte sin residuos, acabado brillante', price: 'L.120' },
+                { name: 'Shampoo Anticaída', desc: 'Estimula cuero cabelludo y fortalece el folículo', price: 'L.140' }
+            ],
+            'Ondulado': [
+                { name: 'Clay Moldeador', desc: 'Fijación fuerte, textura natural', price: 'L.150' },
+                { name: 'Acondicionador Nutritivo', desc: 'Suaviza y desenreda sin apelmazar', price: 'L.130' },
+                { name: 'Gel de Baño Energizante', desc: 'Aroma cítrico, limpia sin resecar', price: 'L.120' }
+            ],
+            'Rizado': [
+                { name: 'Mascarilla Nutritiva', desc: 'Hidratación profunda para cabello reseco', price: 'L.220' },
+                { name: 'Aceite para Barba', desc: 'Nutre y suaviza con aroma amaderado', price: 'L.200' },
+                { name: 'Bálsamo para Barba', desc: 'Controla el frizz y da forma al estilo', price: 'L.170' }
+            ],
+            'Grueso': [
+                { name: 'Pomada Mate', desc: 'Fijación media, acabado natural sin brillo', price: 'L.160' },
+                { name: 'Clay Moldeador', desc: 'Fijación fuerte, textura natural', price: 'L.150' },
+                { name: 'Shampoo Anticaída', desc: 'Estimula cuero cabelludo y fortalece el folículo', price: 'L.140' }
+            ]
+        };
+
+        // ========================================
+        // NUEVO: RECOMENDACIONES DE COLOR
+        // ========================================
+        
+        const colorRecommendations = {
+            'Ovalado': [
+                { name: 'Castaño Ceniza', color: '#6B5D54', desc: 'Sofisticado y moderno, perfecto para tu forma de rostro equilibrada', match: 95 },
+                { name: 'Rubio Arena', color: '#D4B896', desc: 'Ilumina tu rostro aportando calidez natural', match: 88 }
+            ],
+            'Cuadrado': [
+                { name: 'Negro Azulado', color: '#1C1C2E', desc: 'Acentúa tu mandíbula fuerte con elegancia', match: 92 },
+                { name: 'Caoba Oscuro', color: '#4A1F1F', desc: 'Añade profundidad y carácter masculino', match: 87 }
+            ],
+            'Redondo': [
+                { name: 'Rubio Oscuro', color: '#8B7355', desc: 'Alarga visualmente tu rostro con tonos claros', match: 90 },
+                { name: 'Castaño Dorado', color: '#7B5E3F', desc: 'Luminosidad que estiliza tu perfil', match: 85 }
+            ],
+            'Corazón': [
+                { name: 'Chocolate Intenso', color: '#3D2817', desc: 'Equilibra la parte superior de tu rostro', match: 91 },
+                { name: 'Castaño Miel', color: '#A67C52', desc: 'Calidez que suaviza tus facciones', match: 86 }
+            ],
+            'Alargado': [
+                { name: 'Castaño Medio', color: '#5D4E37', desc: 'Equilibra proporcionalmente tu rostro', match: 89 },
+                { name: 'Rubio Ceniza', color: '#B8A389', desc: 'Aporta amplitud visual a tus facciones', match: 84 }
+            ]
+        };
+
+        // ========================================
+        // ACTIVAR/DESACTIVAR CÁMARA
+        // ========================================
+        
+        async function toggleCamera() {
+            const btn = document.getElementById('cameraBtn');
+            const video = document.getElementById('videoFeed');
+            const placeholder = document.getElementById('cameraPlaceholder');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const captureBtn = document.getElementById('captureBtn');
+
+            if (!cameraActive) {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { 
+                            facingMode: 'user',
+                            width: { ideal: 1280 },
+                            height: { ideal: 720 }
+                        },
+                        audio: false 
+                    });
+                    
+                    video.srcObject = stream;
+                    cameraActive = true;
+                    placeholder.style.display = 'none';
+                    statusIndicator.classList.add('active');
+                    
+                    btn.textContent = '🛑 Detener Cámara';
+                    btn.classList.add('active');
+                    analyzeBtn.disabled = false;
+                    captureBtn.disabled = false;
+                    
+                    console.log('✅ Cámara activada');
+                    
+                    setTimeout(() => {
+                        analyzeNow();
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error('❌ Error al activar cámara:', error);
+                    
+                    let errorMessage = 'No se pudo acceder a la cámara.';
+                    
+                    if (error.name === 'NotAllowedError') {
+                        errorMessage = 'Por favor, permite el acceso a la cámara en tu navegador.';
+                    } else if (error.name === 'NotFoundError') {
+                        errorMessage = 'No se encontró ninguna cámara en tu dispositivo.';
+                    } else if (error.name === 'NotReadableError') {
+                        errorMessage = 'La cámara está siendo usada por otra aplicación.';
+                    }
+                    
+                    alert('⚠️ ' + errorMessage);
+                }
+            } else {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+                
+                video.srcObject = null;
+                cameraActive = false;
+                placeholder.style.display = 'block';
+                statusIndicator.classList.remove('active');
+                
+                btn.textContent = '📸 Activar Cámara';
+                btn.classList.remove('active');
+                analyzeBtn.disabled = true;
+                captureBtn.disabled = true;
+                
+                console.log('🛑 Cámara desactivada');
+            }
+        }
+
+        // ========================================
+        // SELECCIONAR ESTILO
+        // ========================================
+        
+        function selectStyle(element, styleName) {
+            document.querySelectorAll('.style-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            element.classList.add('active');
+            currentStyle = styleName;
+            
+            updateRecommendation(styleName);
+            updateProducts();
+            
+            console.log('✂️ Estilo seleccionado:', styleName);
+        }
+
+        // ========================================
+        // ANÁLISIS CON IA
+        // ========================================
+        
+        function analyzeNow() {
+            if (!cameraActive) {
+                alert('⚠️ Por favor, activa la cámara primero.');
+                return;
+            }
+
+            console.log('🧠 Iniciando análisis IA...');
+            
+            // Expandir panel en móviles
+            const isMobileDevice = window.innerWidth < 768;
+            const panel = document.querySelector('.control-panel');
+            if (isMobileDevice && panel) {
+                panel.classList.add('expanded');
+            }
+            
+            document.getElementById('faceShape').textContent = 'Analizando...';
+            document.getElementById('hairTexture').textContent = 'Analizando...';
+            document.getElementById('hairThickness').textContent = 'Analizando...';
+            document.getElementById('facialStyle').textContent = 'Analizando...';
+            
+            setTimeout(() => {
+                const faceShape = analysisData.faceShapes[Math.floor(Math.random() * analysisData.faceShapes.length)];
+                const hairTexture = analysisData.hairTextures[Math.floor(Math.random() * analysisData.hairTextures.length)];
+                const hairThickness = analysisData.hairThickness[Math.floor(Math.random() * analysisData.hairThickness.length)];
+                const facialStyle = analysisData.facialStyles[Math.floor(Math.random() * analysisData.facialStyles.length)];
+                
+                document.getElementById('faceShape').textContent = faceShape;
+                document.getElementById('hairTexture').textContent = hairTexture;
+                document.getElementById('hairThickness').textContent = hairThickness;
+                document.getElementById('facialStyle').textContent = facialStyle;
+                
+                // NUEVO: Actualizar recomendaciones de color
+                updateColorRecommendations(faceShape);
+                
+                // NUEVO: Actualizar productos basados en textura
+                updateProducts(hairTexture);
+                
+                console.log('✅ Análisis completado');
+                
+                if (!currentStyle) {
+                    const styles = Object.keys(styleRecommendations);
+                    const recommendedStyle = styles[Math.floor(Math.random() * styles.length)];
+                    const styleCard = Array.from(document.querySelectorAll('.style-card')).find(
+                        card => card.querySelector('.style-name').textContent === recommendedStyle
+                    );
+                    if (styleCard) {
+                        selectStyle(styleCard, recommendedStyle);
+                    }
+                }
+            }, 1500);
+        }
+
+        // ========================================
+        // ACTUALIZAR RECOMENDACIÓN DE CORTE
+        // ========================================
+        
+        function updateRecommendation(styleName) {
+            const rec = styleRecommendations[styleName];
+            const recCard = document.getElementById('recommendation');
+            
+            recCard.innerHTML = `
+                <div class="recommendation-title">✨ ${styleName}</div>
+                <div class="recommendation-text">
+                    ${rec.description}
+                    <br><br>
+                    <strong>Mejor para:</strong> ${rec.bestFor}
+                </div>
+                <div class="match-score">Match: ${rec.match}%</div>
+            `;
+        }
+
+        // ========================================
+        // NUEVO: ACTUALIZAR RECOMENDACIONES DE COLOR
+        // ========================================
+        
+        function updateColorRecommendations(faceShape) {
+            const colorSection = document.getElementById('colorSection');
+            const colorRec = document.getElementById('colorRecommendation');
+            
+            const colors = colorRecommendations[faceShape] || colorRecommendations['Ovalado'];
+            
+            let html = `<div class="color-title">🎨 Colores perfectos para ti</div>`;
+            
+            colors.forEach(color => {
+                html += `
+                    <div class="color-suggestion">
+                        <div class="color-name">
+                            <span class="color-preview" style="background: ${color.color};"></span>
+                            ${color.name}
+                        </div>
+                        <div class="color-desc">${color.desc}</div>
+                        <div class="color-match">Compatibilidad: ${color.match}%</div>
+                    </div>
+                `;
+            });
+            
+            colorRec.innerHTML = html;
+            colorSection.style.display = 'block';
+            
+            console.log('🎨 Colores recomendados actualizados');
+        }
+
+        // ========================================
+        // NUEVO: ACTUALIZAR PRODUCTOS RECOMENDADOS
+        // ========================================
+        
+        function updateProducts(hairTexture) {
+            const productsSection = document.getElementById('productsSection');
+            const productsList = document.getElementById('productsList');
+            
+            // Usar textura del análisis o textura por defecto
+            const texture = hairTexture || document.getElementById('hairTexture').textContent;
+            const products = productsDatabase[texture] || productsDatabase['Liso'];
+            
+            let html = `<div class="products-title">🛍️ Tu Kit Personalizado</div>`;
+            
+            products.forEach(product => {
+                html += `
+                    <div class="product-item">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-desc">${product.desc}</div>
+                        <div class="product-price">${product.price}</div>
+                    </div>
+                `;
+            });
+            
+            productsList.innerHTML = html;
+            productsSection.style.display = 'block';
+            
+            console.log('🛍️ Productos actualizados para:', texture);
+        }
+
+        // ========================================
+        // NUEVO: FUNCIONES DE TIENDA - INTEGRADAS CON THE MEN'S SPOT
+        // ========================================
+        
+        function openOnlineStore() {
+            // Redirigir al catálogo de productos en tu página web
+            const catalogoURL = 'index.html#catalogo';
+            
+            console.log('🌐 Redirigiendo al catálogo...');
+            
+            // Abrir en nueva pestaña
+            window.open(catalogoURL, '_blank');
+            
+            // Mostrar confirmación breve
+            const statusIndicator = document.getElementById('statusIndicator');
+            const originalText = statusIndicator.textContent;
+            statusIndicator.textContent = '🛍️ Abriendo Catálogo...';
+            statusIndicator.classList.add('active');
+            
+            setTimeout(() => {
+                statusIndicator.textContent = originalText;
+                if (!cameraActive) {
+                    statusIndicator.classList.remove('active');
+                }
+            }, 2000);
+        }
+
+        function visitPhysicalStore() {
+            // Redirigir a la ubicación en tu página web
+            const ubicacionURL = 'index.html#ubicacion';
+            
+            console.log('📍 Redirigiendo a ubicación...');
+            
+            // Abrir en nueva pestaña
+            window.open(ubicacionURL, '_blank');
+            
+            // Mostrar confirmación breve
+            const statusIndicator = document.getElementById('statusIndicator');
+            const originalText = statusIndicator.textContent;
+            statusIndicator.textContent = '📍 Abriendo Mapa...';
+            statusIndicator.classList.add('active');
+            
+            setTimeout(() => {
+                statusIndicator.textContent = originalText;
+                if (!cameraActive) {
+                    statusIndicator.classList.remove('active');
+                }
+            }, 2000);
+        }
+
+        // ========================================
+        // CAPTURAR FOTO
+        // ========================================
+        
+        function capturePhoto() {
+            if (!cameraActive) {
+                alert('⚠️ Por favor, activa la cámara primero.');
+                return;
+            }
+            
+            const video = document.getElementById('videoFeed');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.scale(-1, 1);
+            ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+            
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `the-mens-spot-${Date.now()}.jpg`;
+                a.click();
+                
+                console.log('📷 Foto capturada');
+            }, 'image/jpeg', 0.95);
+        }
+
+        // ========================================
+        // INICIALIZACIÓN
+        // ========================================
+        
+        // Ocultar loading screen cuando la página cargue
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('📱 DOM Cargado');
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loadingScreen');
+                if (loadingScreen) {
+                    loadingScreen.classList.add('hidden');
+                    console.log('🚀 Smart Mirror AI iniciado');
+                }
+            }, 1500);
+        });
+        
+        // Backup: ocultar después de 3 segundos sin importar qué
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+                loadingScreen.classList.add('hidden');
+                console.log('🚀 Smart Mirror AI iniciado (backup)');
+            }
+        }, 3000);
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            console.warn('⚠️ Cámara no disponible en este navegador');
+        }
+        
+        // ========================================
+        // FUNCIONALIDAD MÓVIL - PANEL DESLIZABLE
+        // ========================================
+        
+        // Detectar si es dispositivo móvil
+        const isMobile = () => window.innerWidth < 768;
+        
+        // Toggle panel en móvil al tocar el título
+        const panelTitle = document.querySelector('.panel-title');
+        const controlPanel = document.querySelector('.control-panel');
+        
+        if (panelTitle && controlPanel) {
+            panelTitle.addEventListener('click', () => {
+                if (isMobile()) {
+                    controlPanel.classList.toggle('expanded');
+                }
+            });
+            
+            // Gestos de deslizamiento
+            let startY = 0;
+            let currentY = 0;
+            
+            panelTitle.addEventListener('touchstart', (e) => {
+                if (isMobile()) {
+                    startY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+            
+            panelTitle.addEventListener('touchmove', (e) => {
+                if (isMobile()) {
+                    currentY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+            
+            panelTitle.addEventListener('touchend', () => {
+                if (isMobile()) {
+                    const deltaY = currentY - startY;
+                    
+                    if (Math.abs(deltaY) > 50) {
+                        if (deltaY < 0) {
+                            // Deslizar hacia arriba - expandir
+                            controlPanel.classList.add('expanded');
+                        } else {
+                            // Deslizar hacia abajo - contraer
+                            controlPanel.classList.remove('expanded');
+                        }
+                    }
+                }
+            }, { passive: true });
+        }
+        
+        // Cerrar panel al tocar fuera (móvil)
+        document.addEventListener('click', (e) => {
+            if (isMobile() && controlPanel && controlPanel.classList.contains('expanded')) {
+                const clickedInsidePanel = controlPanel.contains(e.target);
+                const clickedControls = e.target.closest('.camera-controls');
+                
+                if (!clickedInsidePanel && !clickedControls) {
+                    controlPanel.classList.remove('expanded');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
